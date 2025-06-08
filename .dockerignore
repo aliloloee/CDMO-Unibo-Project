@@ -1,0 +1,13 @@
+# Ignore virtual environment folder
+venv/
+.venv/
+
+# Ignore Python bytecode cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore PDF and Word files
+*.pdf
+*.doc
+*.docx

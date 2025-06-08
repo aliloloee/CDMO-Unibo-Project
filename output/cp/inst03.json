@@ -1,0 +1,38 @@
+{
+  "gecode": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": null
+  },
+  "gecode_symmetry": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": null
+  },
+  "gecode_symmetry_heuristic": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": null
+  },
+  "chuffed": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": null
+  },
+  "chuffed_symmetry": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": null
+  },
+  "chuffed_symmetry_heuristic": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": null
+  }
+}
