@@ -1,0 +1,114 @@
+{
+  "cbc_no_symmetry_breaking": {
+    "time": 39,
+    "optimal": true,
+    "obj": 226,
+    "sol": [
+      [
+        9,
+        6,
+        8
+      ],
+      [
+        5
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        7
+      ],
+      [
+        1
+      ],
+      [
+        4
+      ]
+    ]
+  },
+   "cbc_symmetry_breaking": {
+    "time": 78,
+    "optimal": true,
+    "obj": 226,
+    "sol": [
+      [
+        7
+      ],
+      [
+        8
+      ],
+      [
+        6
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  "glpk_no_symmetry_breaking": {
+    "time": 300,
+    "optimal": false,
+    "obj": 226,
+    "sol": [
+      [
+        7,
+        9
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        4
+      ],
+      [
+        5
+      ],
+      [
+        1
+      ],
+      [
+        8,
+        6
+      ]
+    ]
+  },
+  "glpk_symmetry_breaking": {
+    "time": 300,
+    "optimal": false,
+    "obj": 249,
+    "sol": [
+      [
+        7
+      ],
+      [
+        9
+      ],
+      [
+        1
+      ],
+      [
+        6
+      ],
+      [
+        3,
+        2,
+        5
+      ],
+      [
+        4,
+        8
+      ]
+    ]
+  }
+}

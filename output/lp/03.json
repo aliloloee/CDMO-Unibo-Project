@@ -1,0 +1,82 @@
+{
+  "cbc_no_symmetry_breaking": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        5,
+        6,
+        3
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        7,
+        1
+      ]
+    ]
+  },
+  "cbc_symmetry_breaking": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        5,
+        4,
+        2
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        1,
+        6
+      ]
+    ]
+  },
+  "glpk_no_symmetry_breaking": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        3,
+        6,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        7
+      ]
+    ]
+  },
+  "glpk_symmetry_breaking": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        5,
+        4,
+        2
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        1,
+        6
+      ]
+    ]
+  }
+}
