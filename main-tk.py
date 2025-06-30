@@ -137,9 +137,7 @@ class MCPApp:
                 timeout=int(self.timeout_var.get()),
                 solver_name=solver_name,
                 use_symmetry_breaking=use_sb
-)
-
-
+                )
                 self.print_output(f"Objective: {result['obj']}")
                 self.print_output(f"Optimal: {result['optimal']}")
                 self.print_output(f"Time: {result['time']} sec")
