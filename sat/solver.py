@@ -146,7 +146,7 @@ class SATSolver:
             all_dist.append(courier_path)
 
         return  {
-            'time': seconds,
+            'time': seconds if seconds < self.timeout else self.timeout,
             'optimal': optimal,
             'obj': obj,
             'sol': all_dist
@@ -262,6 +262,7 @@ class SATSolver:
                 if iter == 0:
                     raise TimeoutError("Solver timed out before finding any solution.")
                 # output = False
+                output_dict = self.format_output(final_evaluation, optimal, try_timeout)
                 self.print_solution(final_evaluation, round(try_timeout, 3), optimal=False)
                 return output_dict
             
@@ -341,6 +342,7 @@ class SATSolver:
             if (self.timeout - try_timeout) < 0:
                 if iter == 0:
                     raise TimeoutError("Solver timed out before finding any solution.")
+                output_dict = self.format_output(final_evaluation, optimal, try_timeout)
                 self.print_solution(final_evaluation, round(try_timeout, 3), optimal=False)
                 return output_dict
 

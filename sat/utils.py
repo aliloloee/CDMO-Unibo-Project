@@ -54,7 +54,7 @@ def load_data(path, instance):
         for file in files:
             data[file] = (read_instance(path + "/" + file))
 
-    # Read only the instance specified
+    # Read file until the instance specified
     else:
         i = 0
         for file in files:
@@ -62,6 +62,25 @@ def load_data(path, instance):
                 break
             data[file] = (read_instance(path + "/" + file))
             i += 1
+    return data
+
+def load_single_data(path, instance):
+    data = {}
+    files = sorted(os.listdir(path))
+
+    # Read all instances
+    if instance == 0:
+        for file in files:
+            data[file] = read_instance(os.path.join(path, file))
+
+    # Read only the specified instance
+    else:
+        if instance - 1 < len(files):
+            file = files[instance - 1]
+            data[file] = read_instance(os.path.join(path, file))
+        else:
+            raise IndexError(f"Instance index {instance} is out of range. There are only {len(files)} files.")
+    
     return data
 
 

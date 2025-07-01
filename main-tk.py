@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
 import argparse
 
-from sat.utils import load_data
+from sat.utils import load_data, load_single_data
 from sat.solver import SATSolver
 from cp.solver import CPSolver
 from lp.solver import MIPSolver
@@ -107,6 +107,7 @@ class MCPApp:
 
         if approach == "sat":
             data = load_data(self.input_dir_var.get(), self.num_instance_var.get())
+            # data = load_single_data(self.input_dir_var.get(), self.num_instance_var.get())
             solver = SATSolver(
                 data=data,
                 output_dir=self.output_dir_var.get(),
