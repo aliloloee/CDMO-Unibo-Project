@@ -70,10 +70,11 @@ The project includes a user-friendly Tkinter-based desktop interface that allows
   - CP
   - LP
 
-- When selecting the LP solver, you can:
+- When selecting the LP solver(visualization of ressult), you can:
 
   - Choose the backend solver (cbc or glpk)
   - Enable or disable symmetry breaking
+  - **To run multiple instances and get the output json file, run via cd lp && python runner.py**
 
 - Input Folder Customization:
   You can select the directory containing input instances.
