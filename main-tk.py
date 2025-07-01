@@ -6,7 +6,7 @@ import argparse
 from sat.utils import load_data, load_single_data
 from sat.solver import SATSolver
 from cp.solver import CPSolver
-from lp.solver import MIPSolver
+from lp.solvergui import MIPSolver
 from lp.helper import parse_dat_file
 import os
 
@@ -138,9 +138,7 @@ class MCPApp:
                 timeout=int(self.timeout_var.get()),
                 solver_name=solver_name,
                 use_symmetry_breaking=use_sb
-)
-
-
+                )
                 self.print_output(f"Objective: {result['obj']}")
                 self.print_output(f"Optimal: {result['optimal']}")
                 self.print_output(f"Time: {result['time']} sec")

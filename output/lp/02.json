@@ -1,6 +1,6 @@
 {
   "cbc_no_symmetry_breaking": {
-    "time": 39,
+    "time": 40,
     "optimal": true,
     "obj": 226,
     "sol": [
@@ -27,7 +27,7 @@
       ]
     ]
   },
-   "cbc_symmetry_breaking": {
+  "cbc_symmetry_breaking": {
     "time": 78,
     "optimal": true,
     "obj": 226,

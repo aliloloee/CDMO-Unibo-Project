@@ -1,8 +1,0 @@
-{
-  "glpk_symmetry_breaking": {
-    "time": 300,
-    "optimal": false,
-    "obj": 0,
-    "sol": []
-  }
-}
