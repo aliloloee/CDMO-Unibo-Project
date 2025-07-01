@@ -127,6 +127,15 @@ class MCPApp:
             solver_name = self.solver_var.get().lower()
             use_sb = self.symbreak_var.get()
             self.print_output(f"Running LP solver with {solver_name.upper()} | Symmetry Breaking: {use_sb}")
+
+            try:
+                filename = f"inst{self.num_instance_var.get():02d}.dat"
+                path = os.path.join(self.input_dir_var.get(), filename)
+                m, n, capacities, sizes, distance_matrix = parse_dat_file(path)
+            except Exception as e:
+                self.print_output(f"Error loading instance: {e}")
+                return
+            
             try:
                 result = MIPSolver(
                 m=m,
