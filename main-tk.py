@@ -6,7 +6,7 @@ import argparse
 from sat.utils import load_data
 from sat.solver import SATSolver
 from cp.solver import CPSolver
-from lp.solver import MIPSolver
+from lp.solvergui import MIPSolver
 from lp.helper import parse_dat_file
 import os
 
