@@ -29,7 +29,7 @@
     ]
   },
   "gecode_symmetry": {
-    "time": 157,
+    "time": 133,
     "optimal": true,
     "obj": 220,
     "sol": [
@@ -62,7 +62,7 @@
     ]
   },
   "gecode_symmetry_heuristic": {
-    "time": 147,
+    "time": 127,
     "optimal": true,
     "obj": 220,
     "sol": [
@@ -95,7 +95,7 @@
     ]
   },
   "chuffed": {
-    "time": 82,
+    "time": 71,
     "optimal": true,
     "obj": 220,
     "sol": [
@@ -124,7 +124,7 @@
     ]
   },
   "chuffed_symmetry": {
-    "time": 7,
+    "time": 6,
     "optimal": true,
     "obj": 220,
     "sol": [
@@ -157,7 +157,7 @@
     ]
   },
   "chuffed_symmetry_heuristic": {
-    "time": 8,
+    "time": 7,
     "optimal": true,
     "obj": 220,
     "sol": [

@@ -12,17 +12,12 @@ class CPSolver:
         self.timeout = timeout
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.models_dir = os.path.join(self.base_dir, "cp", "Models")
-        self.output_dir = os.path.join(self.base_dir, "output", "cp")
+        self.output_dir = os.path.join(self.base_dir, "output", "cp", "cp")
         self.input_dir = os.path.join(self.base_dir, "input")
         self.data = os.path.join(self.input_dir, f"inst{int(data):02d}.dat")
+        self.raw_data = f"{int(data):02d}"
         self.window = glob.obtain('app')
 
-    def print_output(self, message: str):
-        """Print output to the GUI window"""
-        if self.window:
-            self.window.print_output(message)
-        else:
-            print(message)
 
     def read_dat_file(self, file_path: str) -> Tuple[int, int, List[int], List[int], List[List[int]]]:
         with open(file_path, 'r') as f:
@@ -45,7 +40,8 @@ class CPSolver:
         return m, n, l, s, D
 
     def create_dzn_file(self, m: int, n: int, l: List[int], s: List[int], D: List[List[int]]) -> str:
-        dzn_file = f"""m = {m};
+        dzn_file = f"""
+        m = {m};
         n = {n};
         l = {l};
         s = {s};
@@ -64,54 +60,27 @@ class CPSolver:
     def parse_mzn_output(self, output_string: str, timeout: int) -> Dict[str, Any]:
         obj_value = None
         solution = []
-        max_path_length = None
-        path_lengths = []
-        courier_distances = []
 
         # Extract objective value
         match = re.search(r"Optimized maximum distance:\s*(\d+)", output_string)
         if match:
             obj_value = int(match.group(1))
-            self.print_output(f"Optimized maximum distance: {obj_value}")
 
-        # Extract max path length
-        match = re.search(r"max path length:\s*(\d+)", output_string)
-        if match:
-            max_path_length = int(match.group(1))
-            self.print_output(f"\nmax path length: {max_path_length}")
-
-        # Extract path lengths
-        match = re.search(r"path length of each couriers:\s*\[(.*?)\]", output_string)
-        if match:
-            path_lengths = [int(x.strip()) for x in match.group(1).split(',')]
-            self.print_output(f"\npath length of each couriers: {path_lengths}")
-
-        # Extract courier paths and distances
-        self.print_output("\ncourier pathes and total distances:")
+        # Extract courier paths
         path_pattern = re.compile(r"courier (\d+):\s*path:\s*([\d\s]+)\s*total distance:\s*(\d+)")
         for match in path_pattern.finditer(output_string):
-            courier_num = int(match.group(1))
             path = list(map(int, match.group(2).strip().split()))
-            distance = int(match.group(3))
             solution.append(path)
-            courier_distances.append(distance)
-            self.print_output(f"courier {courier_num}:")
-            self.print_output(f"    path: {' '.join(map(str, path))}")
-            self.print_output(f"    total distance: {distance}")
 
         # Extract elapsed time
         time_match = re.search(r"% time elapsed: ([\d.]+) s", output_string)
         elapsed_time = float(time_match.group(1)) if time_match else timeout
-        self.print_output(f"\n% time elapsed: {elapsed_time:.2f} s")
 
         return {
             "time": min(timeout, int(elapsed_time)),
             "optimal": elapsed_time < timeout,
             "obj": obj_value,
             "sol": solution if solution else None,
-            "max_path_length": max_path_length,
-            "path_lengths": path_lengths,
-            "courier_distances": courier_distances
         }
 
     def run_minizinc_model(self, model_path: str, dzn_path: str, solver: str) -> Dict[str, Any]:
@@ -134,9 +103,6 @@ class CPSolver:
 
             output_lines = []
             for line in iter(process.stdout.readline, ''):
-                # Only print lines that contain solution information
-                if any(key in line.lower() for key in ['optimized', 'path:', 'time elapsed']):
-                    self.print_output(line.strip())
                 output_lines.append(line)
             
             process.stdout.close()
@@ -146,7 +112,7 @@ class CPSolver:
             return self.parse_mzn_output(output_string, self.timeout)
 
         except subprocess.TimeoutExpired:
-            self.print_output(f"MiniZinc process timed out for model {model_path}.")
+            self.window.print_output(f"MiniZinc process timed out for model {model_path}.")
             return {
                 "time": self.timeout,
                 "optimal": False,
@@ -170,7 +136,7 @@ class CPSolver:
             dzn_content = self.create_dzn_file(m, n, l, s, D)
             
             # Generate output filenames
-            instance_name = Path(self.data).stem
+            instance_name = Path(self.raw_data).stem
             dzn_file = os.path.join(self.output_dir, f"{instance_name}.dzn")
             json_file = os.path.join(self.output_dir, f"{instance_name}.json")
             
@@ -194,29 +160,35 @@ class CPSolver:
             for model_name, model_file in models.items():
                 model_path = os.path.join(self.models_dir, model_file)
                 if not os.path.exists(model_path):
-                    self.print_output(f"Error: Model file not found: {model_path}")
+                    self.window.print_output(f"Error: Model file not found: {model_path}")
                     continue
                 results[model_name] = self.run_minizinc_model(model_path, dzn_file, model_name.split('_')[0])
             
+            # Remove the .dzn file after it's been used
+            try:
+                os.remove(dzn_file)
+            except Exception as e:
+                pass
+
             # Save results to JSON
             with open(json_file, 'w') as f:
                 json.dump(results, f, indent=2)
             
-            self.print_output("\nFinal Results Summary:")
+            self.window.print_output("\nFinal Results Summary:")
             for model_name, result in results.items():
-                self.print_output(f"\n{model_name}:")
-                self.print_output(f"  Time: {result['time']} seconds")
-                self.print_output(f"  Optimal: {result['optimal']}")
-                self.print_output(f"  Objective: {result['obj']}")
+                self.window.print_output(f"\n{model_name}:")
+                self.window.print_output(f"  Time: {result['time']} seconds")
+                self.window.print_output(f"  Optimal: {result['optimal']}")
+                self.window.print_output(f"  Objective: {result['obj']}")
                 if result['sol']:
-                    self.print_output("  Solution paths:")
+                    self.window.print_output("  Solution paths:")
                     for i, path in enumerate(result['sol']):
-                        self.print_output(f"    Courier {i+1}: {path}")
+                        self.window.print_output(f"    Courier {i+1}: {path}")
             
             return results
             
         except Exception as e:
-            self.print_output(f"Error solving instance {self.data}: {str(e)}")
+            self.window.print_output(f"Error solving instance {self.data}: {str(e)}")
             return {
                 "time": self.timeout,
                 "optimal": False,
