@@ -1,6 +1,6 @@
 import time as pytime
 from pulp import *
-from helper import format_output
+from .helper import format_output
 
 def MIPSolver(m, n, capacities, sizes, distance_matrix, coupled_pairs=None, timeout=300, solver_name="cbc", use_symmetry_breaking=False):
     model = LpProblem("MCP_MIP", LpMinimize)
