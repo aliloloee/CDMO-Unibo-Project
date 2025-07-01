@@ -1,0 +1,122 @@
+{
+  "gecode": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        3,
+        6,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        7
+      ]
+    ]
+  },
+  "gecode_symmetry": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        3,
+        6,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        7
+      ]
+    ]
+  },
+  "gecode_symmetry_heuristic": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        3,
+        6,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        7
+      ]
+    ]
+  },
+  "chuffed": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        3,
+        6,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        7
+      ]
+    ]
+  },
+  "chuffed_symmetry": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        3,
+        6,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        7
+      ]
+    ]
+  },
+  "chuffed_symmetry_heuristic": {
+    "time": 0,
+    "optimal": true,
+    "obj": 12,
+    "sol": [
+      [
+        3,
+        6,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        7
+      ]
+    ]
+  }
+}
