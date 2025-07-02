@@ -1,15 +1,15 @@
 import os
 import json
-from helper import load_all_instances
-from solver import MIPSolver
+from lp.helper import load_all_instances
+from lp.solver import LPSolver
 
-def run_all(input_dir, output_dir, solver_name="cbc", first=1, last=21,  use_symmetry_breaking=False, timeout=300):
+def LPRunner(input_dir, output_dir, solver_name="cbc", first=1, last=21,  use_symmetry_breaking=False, timeout=300, logger=print):
     os.makedirs(output_dir, exist_ok=True)
     data = load_all_instances(input_dir, first, last)
 
     for filename, (m, n, caps, sizes, D) in data.items():
         print(f"Solving {filename}")
-        result = MIPSolver(
+        result = LPSolver(
         m, n, caps, sizes, D,
         timeout=timeout,
         solver_name=solver_name,
@@ -33,8 +33,8 @@ def run_all(input_dir, output_dir, solver_name="cbc", first=1, last=21,  use_sym
             json.dump(result_dict, f, indent=2)
         print(f"Saved to {out_path}")
 
-if __name__ == "__main__":
-    run_all("../input", "../output/lp", first=1, last=10, solver_name="cbc", use_symmetry_breaking=False, timeout=300)
-    run_all("../input", "../output/lp", first=1, last=10, solver_name="cbc", use_symmetry_breaking=True, timeout=300)
-    run_all("../input", "../output/lp", first=1, last=10, solver_name="glpk", use_symmetry_breaking=False, timeout=300)
-    run_all("../input", "../output/lp", first=1, last=10, solver_name="glpk", use_symmetry_breaking=True, timeout=300)
+# if __name__ == "__main__":
+#     LPRunner("../input", "../output/lp", first=1, last=10, solver_name="cbc", use_symmetry_breaking=False, timeout=300)
+#     LPRunner("../input", "../output/lp", first=1, last=10, solver_name="cbc", use_symmetry_breaking=True, timeout=300)
+#     LPRunner("../input", "../output/lp", first=1, last=10, solver_name="glpk", use_symmetry_breaking=False, timeout=300)
+#     LPRunner("../input", "../output/lp", first=1, last=10, solver_name="glpk", use_symmetry_breaking=True, timeout=300)

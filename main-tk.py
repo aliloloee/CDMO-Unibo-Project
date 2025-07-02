@@ -1,3 +1,4 @@
+import json
 import tkinter as tk
 from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
@@ -6,8 +7,7 @@ import argparse
 from sat.utils import load_data, load_single_data
 from sat.solver import SATSolver
 from cp.solver import CPSolver
-from lp.solvergui import MIPSolver
-from lp.helper import parse_dat_file
+from lp.runner import LPRunner
 import os
 
 from setup.config import glob
@@ -118,42 +118,47 @@ class MCPApp:
 
         elif approach == "lp":
             try:
-                filename = f"inst{self.num_instance_var.get():02d}.dat"
-                path = os.path.join(self.input_dir_var.get(), filename)
-                m, n, capacities, sizes, distance_matrix = parse_dat_file(path)
-            except Exception as e:
-                self.print_output(f"Error loading instance: {e}")
-                return
-            solver_name = self.solver_var.get().lower()
-            use_sb = self.symbreak_var.get()
-            self.print_output(f"Running LP solver with {solver_name.upper()} | Symmetry Breaking: {use_sb}")
+                inst_num = self.num_instance_var.get()
+                solver_name = self.solver_var.get().lower()
+                use_sb = self.symbreak_var.get()
+                input_dir = self.input_dir_var.get()
+                output_dir = self.output_dir_var.get() + "/lp"
+                timeout = self.timeout_var.get()
 
-            try:
-                filename = f"inst{self.num_instance_var.get():02d}.dat"
-                path = os.path.join(self.input_dir_var.get(), filename)
-                m, n, capacities, sizes, distance_matrix = parse_dat_file(path)
-            except Exception as e:
-                self.print_output(f"Error loading instance: {e}")
-                return
-            
-            try:
-                result = MIPSolver(
-                m=m,
-                n=n,
-                capacities=capacities,
-                sizes=sizes,
-                distance_matrix=distance_matrix,
-                timeout=int(self.timeout_var.get()),
-                solver_name=solver_name,
-                use_symmetry_breaking=use_sb
+                LPRunner(
+                    input_dir=input_dir,
+                    output_dir=output_dir,
+                    solver_name=solver_name,
+                    first=inst_num,
+                    last=inst_num,
+                    use_symmetry_breaking=use_sb,
+                    timeout=timeout,
+                    logger=self.print_output
                 )
-                self.print_output(f"Objective: {result['obj']}")
-                self.print_output(f"Optimal: {result['optimal']}")
-                self.print_output(f"Time: {result['time']} sec")
-                self.print_output(f"Solution: {result['sol']}")
+
+                instance_id = f"{inst_num:02d}"
+                out_path = os.path.join(output_dir, f"{instance_id}.json")
+
+                if not os.path.exists(out_path):
+                    self.print_output(f"No output file found at {out_path}")
+                    return
+
+                with open(out_path, "r") as f:
+                    result_dict = json.load(f)
+
+                label = solver_name + ("_symmetry_breaking" if use_sb else "_no_symmetry_breaking")
+                if label in result_dict:
+                    result = result_dict[label]
+                    self.print_output(f"Objective: {result['obj']}")
+                    self.print_output(f"Optimal: {result['optimal']}")
+                    self.print_output(f"Time: {result['time']} sec")
+                    self.print_output(f"Solution: {result['sol']}")
+                else:
+                    self.print_output(f"No result under label '{label}' in {out_path}")
 
             except Exception as e:
                 self.print_output(f"LP Solver error: {e}")
+
         else:
             self.print_output("Please select a valid solver.")
 
