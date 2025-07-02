@@ -12,7 +12,7 @@ class CPSolver:
         self.timeout = timeout
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.models_dir = os.path.join(self.base_dir, "cp", "Models")
-        self.output_dir = os.path.join(self.base_dir, "output", "cp", "cp")
+        self.output_dir = os.path.join(self.base_dir, "output", "cp")
         self.input_dir = os.path.join(self.base_dir, "input")
         self.data = os.path.join(self.input_dir, f"inst{int(data):02d}.dat")
         self.raw_data = f"{int(data):02d}"
